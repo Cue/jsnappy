@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project name="JSnappy" default="build">
+
+	<target name="clean">
+		<delete dir="build/classes"/>
+		<delete dir="build/lib"/>
+		<delete dir="build/api-docs"/>
+		<delete dir="build/test" />
+	</target>
+		
+	<target name="prepare">
+		<mkdir dir="build" />
+		<mkdir dir="build/classes/main" />
+		<mkdir dir="build/classes/test" />
+		<mkdir dir="build/lib" />
+		<mkdir dir="build/test/reports" />
+		<mkdir dir="build/api-docs" />
+	</target>
+
+	<target name="compile-main" depends="prepare">
+		<javac srcdir="src/main" destdir="build/classes/main" source="1.5" target="1.5"/>
+	</target>
+
+	<target name="compile-test" depends="prepare, compile-main">
+		<javac srcdir="src/test" destdir="build/classes/test" source="1.5" target="1.5">
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+				<pathelement location="build/classes/main"/>
+			</classpath>			
+		</javac>
+	</target>
+
+	<target name="api-docs">
+		<javadoc
+		           destdir="build/api-docs"
+		           author="true"
+		           version="true"
+		           use="true"
+		           windowtitle="JSnappy">
+	
+		    <packageset dir="src/main" defaultexcludes="yes">
+		      <include name="de/jarnbjo/**"/>
+		    </packageset>
+	
+		    <doctitle><![CDATA[<h1>JSnappy</h1>]]></doctitle>
+		    <bottom><![CDATA[<i>Copyright &#169; 2011 Tor-Einar Jarnbjo</i>]]></bottom>
+		    <tag name="todo" scope="all" description="To do:"/>
+		</javadoc>
+	</target>
+		
+	<target name="build" depends="clean, compile-main, api-docs">
+		<jar destfile="build/lib/JSnappy-0.9.1.jar" update="true">
+			<fileset dir="build/classes/main">
+				<include name="**" />
+			</fileset>
+		</jar>
+		<jar destfile="build/lib/JSnappy-0.9.1-src.jar" update="true">
+			<fileset dir="src/main">
+				<include name="**" />
+			</fileset>
+		</jar>
+		<jar destfile="build/lib/JSnappy-0.9.1-docs.jar" update="true">
+			<fileset dir="build/api-docs">
+				<include name="**" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="test-internal" depends="compile-test">
+		<junit printsummary="withOutAndErr" fork="off" haltonfailure="yes">
+			<classpath>
+				<pathelement location="build/classes/main"/>
+				<pathelement location="build/classes/test"/>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<formatter type="plain"/>
+			<batchtest fork="yes" todir="build/test/reports">
+				<fileset dir="src/test">
+					<include name="**/*Test.java"/>
+					<exclude name="**/withdata/*.java"/>
+				</fileset>
+			</batchtest>
+		</junit>		
+	</target>
+	
+	<target name="test-with-data" depends="compile-test">
+		<junit printsummary="withOutAndErr" fork="off" haltonfailure="yes">
+			<classpath>
+				<pathelement location="build/classes/main"/>
+				<pathelement location="build/classes/test"/>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<formatter type="plain"/>
+			<batchtest fork="yes" todir="build/test/reports">
+				<fileset dir="src/test">
+					<include name="**/withdata/*Test.java"/>
+				</fileset>
+			</batchtest>
+		</junit>		
+	</target>
+
+	<target name="test" depends="test-internal, test-with-data">
+	</target>
+	
+</project>
