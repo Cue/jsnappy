@@ -1,0 +1,59 @@
+ <project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.greplin.thirdparty</groupId>
+  <artifactId>jsnappy</artifactId>
+  <packaging>jar</packaging>
+  <name>JSnappy</name>
+  <version>0.9.1-SNAPSHOT</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <description>Java implementation of the Snappy compression/decompression algorithm from Google.</description>
+  <url>http://code.google.com/p/jsnappy/</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+   <scm>
+    <connection>scm:git:git@github.com:Greplin/jsnappy.git</connection>
+    <developerConnection>scm:git:git@github.com:Greplin/jsnappy.git</developerConnection>
+    <url>git@github.com:Greplin/jsnappy.git</url>
+   </scm>
+
+  <developers>
+    <developer>
+      <id>stefanp</id>
+      <name>Stefan Praszalowicz</name>
+      <email>deubeulyou@gmail.com</email>
+    </developer>
+  </developers>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
+  <build>
+    <sourceDirectory>src/main</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
